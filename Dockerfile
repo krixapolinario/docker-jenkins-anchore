@@ -1,5 +1,8 @@
 FROM jenkins/jenkins:lts
 
+EXPOSE 8080
+EXPOSE 50000
+
 USER root
 
 RUN apt-get -y update
@@ -13,9 +16,8 @@ RUN adduser jenkins sudo
 RUN usermod -a -G docker jenkins
 RUN echo "jenkins  ALL=NOPASSWD: /usr/bin/docker, /usr/sbin/service" >> /etc/sudoers
 
-#ENTRYPOINT sudo service docker start && /bin/bash
+ENTRYPOINT [“service”, “docker”, “start”]
 
 USER jenkins
 
-EXPOSE 8080
-EXPOSE 50000
+ENTRYPOINT [“/bin/tini”, “--“, “/usr/local/bin/jenkins.sh”]
