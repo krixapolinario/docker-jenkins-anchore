@@ -15,8 +15,7 @@ RUN systemctl enable docker
 RUN adduser jenkins sudo
 RUN usermod -a -G docker jenkins
 RUN echo "jenkins  ALL=NOPASSWD: /usr/bin/docker, /usr/sbin/service" >> /etc/sudoers
-
-ENTRYPOINT [“service”, “docker”, “start”]
+RUN service docker start
 
 USER jenkins
 
